@@ -1,6 +1,7 @@
 const passport = require("passport")
 const Account = require("../models/Accounts")
 const library = require("../models/Library")
+
 module.exports = (app) => {
 
     app.get("/", (req, res) => {
@@ -9,7 +10,7 @@ module.exports = (app) => {
     app.get("/login", (req, res) => {
         res.render("login")
     })
-    app.post("/login", passport.authenticate("local", { successRedirect: "/Profile/api/books", failureRedirect: "/register" }), () => {
+    app.post("/login", passport.authenticate("local", { successRedirect: "/profile", failureRedirect: "/register" }), () => {
         console.log("in login")
     })
 
@@ -42,20 +43,20 @@ module.exports = (app) => {
         //if session established profile can be accessed after one login
 
 
-    app.get("/profile/api/books", authCheck, (req, res) => {
+    app.get("/profile", authCheck, (req, res) => {
         const user = { user: req.user.username }
         library.find(user).then((doc) => {
             if (!doc)
                 return res.status(404).send()
-
-            res.send({ doc })
+            console.log(doc)
+            res.render("profile", { doc })
         }).catch((err) => {
             res.status(400).send()
         })
     })
 
 
-    app.post("/profile/api/books", authCheck, (req, res) => {
+    app.post("/profile", authCheck, (req, res) => {
         const book = new library({ user: req.user.username, title: req.body.book_title, comments: [] })
         book.save().then((doc) => {
             res.send({ doc })
@@ -64,7 +65,7 @@ module.exports = (app) => {
         })
     })
 
-    app.delete("/profile/api/books", authCheck, (req, res) => {
+    app.delete("/profile", authCheck, (req, res) => {
         const user = { user: req.user.usernamee }
         library.deleteMany(user).then((doc) => {
             if (!doc)
@@ -75,7 +76,7 @@ module.exports = (app) => {
         })
     })
 
-    app.get("/profile/api/books/:id", authCheck, (req, res) => {
+    app.get("/profile/:id", authCheck, (req, res) => {
         const bookName = { _id: req.params.id, title: req.body.book_title }
         library.findOne(bookName).then((doc) => {
             if (!doc)
@@ -86,7 +87,7 @@ module.exports = (app) => {
         })
     })
 
-    app.post("/profile/api/books/:id", authCheck, (req, res) => {
+    app.post("/profile/:id", authCheck, (req, res) => {
         //const book = new library({ _id: req.params.id, title: req.body.book_title })
         const id = req.params.id
         let comments;
@@ -106,7 +107,7 @@ module.exports = (app) => {
         })
     })
 
-    app.delete("/profile/api/books/:id", authCheck, (req, res) => {
+    app.delete("/profile/:id", authCheck, (req, res) => {
         const book = { _id: req.params.id }
         library.deleteOne(book).then((doc) => {
 
