@@ -22,7 +22,16 @@ app.use(passport.session())
 app.use(express.static(__dirname + "/public"))
 app.use(express.static(__dirname + "/node_modules/bootstrap/dist"))
 
+hbs.registerHelper("getBooks", (doc) => {
+    let out;
+    console.log(doc)
+    if (!doc == []) {
+        out = "<div class='alert alert-danger container' style='align-self:bottom' role='alert'>No Books Added</div>"
 
+    }
+    console.log(out)
+    return new hbs.handlebars.SafeString(out)
+})
 
 const Account = require("./models/Accounts")
 passport.use(new LocalStrategy(
