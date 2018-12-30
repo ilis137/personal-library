@@ -24,12 +24,14 @@ app.use(express.static(__dirname + "/node_modules/bootstrap/dist"))
 
 hbs.registerHelper("getBooks", (doc) => {
     let out;
-    console.log(doc)
-    if (!doc == []) {
-        out = "<div class='alert alert-danger container' style='align-self:bottom' role='alert'>No Books Added</div>"
 
+    if (!doc) {
+        out = "<div id='noBooks'class='alert alert-danger container' style='align-self:bottom' role='alert'>No Books Added</div>"
+
+    } else {
+        out = doc[0].title
     }
-    console.log(out)
+    //console.log(out)
     return new hbs.handlebars.SafeString(out)
 })
 

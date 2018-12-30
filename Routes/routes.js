@@ -19,8 +19,9 @@ module.exports = (app) => {
     })
 
     app.post("/register", (req, res) => {
-        console.log(req.body.username)
+
         Account.register(new Account({ username: req.body.username, password: req.body.password }), req.body.password, (err, account) => {
+
             if (err) {
                 console.log("render register faliure page " + err)
                 return res.render("register", { error: err })
@@ -46,10 +47,15 @@ module.exports = (app) => {
     app.get("/profile", authCheck, (req, res) => {
         const user = { user: req.user.username }
         library.find(user).then((doc) => {
-            if (!doc)
-                return res.status(404).send()
-            console.log(doc)
-            res.render("profile", { doc })
+            console.log(doc.length)
+            if (!doc.length) {
+                console.log("user not found")
+                    //return res.status(404).send()
+                return res.render("profile")
+            }
+
+            // res.send(doc)
+            res.render("profile", { books: doc })
         }).catch((err) => {
             res.status(400).send()
         })
@@ -57,10 +63,13 @@ module.exports = (app) => {
 
 
     app.post("/profile", authCheck, (req, res) => {
-        const book = new library({ user: req.user.username, title: req.body.book_title, comments: [] })
+
+        const book = new library({ user: req.user.username, title: req.query.book_title, comments: [] })
+
         book.save().then((doc) => {
-            res.send({ doc })
+            res.send(doc)
         }).catch((err) => {
+            console.log(err)
             res.status(400).send()
         })
     })
