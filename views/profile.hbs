@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <script language="javascript" src="js/bootstrap.min.js"></script>
 
-
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
     <title>Document</title>
 </head>
 <style>
@@ -18,14 +19,59 @@
     }
 </style>
 
-<body class="text-center">
-    {{> navbar}}>
-    <div class="container" style="height:100%;display: flex;align-items:end;justify-content:end;">
-        <div class="container" style="height:70%;">
-            {{getBooks doc}}
-        </div>
-    </div>
+<body class="text-center" style="padding-top: 5rem;">
+    {{> navbar}}
 
+    <div style="padding: 3rem 1.5rem;
+  text-align: center;" id="libraryIndex">
+
+        <div class="card" style="margin-bottom:1.5rem">
+            <div class="card-body">
+                <h5 class="card-title">Add A Book</h5>
+
+                <form id="addBook" role="form">
+                    <div class="form-row">
+
+                        <div class="col-9">
+
+                            <input type="text" class="form-control" placeholder="Book Title" id="book_title" name="book_title">
+                        </div>
+
+                        <button type="button col" class="btn btn-primary">ADD A BOOK</button>
+
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+        {{getBooks doc}}
+
+
+    </div>
+    <script>
+        const addBook = $("#addBook")
+        addBook.submit((e) => {
+            e.preventDefault()
+            $.ajax({
+                url: "http://localhost:3000/profile?book_title=" + $("#book_title").val(),
+                type: "POST",
+
+            }).done((data) => {
+                console.log(data)
+                if ($("#noBooks")) {
+                    $("#noBooks").remove()
+                    $("#libraryIndex").append("<ul class='list-group'></ul>")
+                    $(".list-group").append("< li class='list - group - item' >"++" </li >")
+                    // $(".list-group").append("< li class='list - group - item' >"++" </li >")
+                    //< li class="list-group-item" > Cras justo odio</li >
+
+
+                }
+
+            })
+        })
+    </script>
 
 </body>
 
