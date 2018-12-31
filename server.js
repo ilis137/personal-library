@@ -24,12 +24,16 @@ app.use(express.static(__dirname + "/node_modules/bootstrap/dist"))
 
 hbs.registerHelper("getBooks", (doc) => {
     let out;
-
     if (!doc) {
-        out = "<div id='noBooks'class='alert alert-danger container' style='align-self:bottom' role='alert'>No Books Added</div>"
+        out = "<ul class='list-group ' id='booklist'><div id='noBooks'class='alert alert-danger container' style='align-self:bottom' role='alert'>No Books Added</div></ul>"
 
     } else {
-        out = doc[0].title
+
+        out = "<ul class='list-group'>"
+        doc.forEach(data => {
+            out += "<li class='list-group-item d-flex justify-content-between align-items-center'><a href='http://localhost:3000/profile/" + data._id + " '>" + data.title + "</a> <i class='far fa-trash-alt deleteBook' style='color:red'></i> </li > "
+        })
+        out += "</ul>"
     }
     //console.log(out)
     return new hbs.handlebars.SafeString(out)
