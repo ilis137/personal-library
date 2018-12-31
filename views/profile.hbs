@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <script language="javascript" src="js/bootstrap.min.js"></script>
 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+        crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
     <title>Document</title>
@@ -37,12 +39,21 @@
                             <input type="text" class="form-control" placeholder="Book Title" id="book_title" name="book_title">
                         </div>
 
-                        <button type="button col" class="btn btn-primary">ADD A BOOK</button>
+                        <button type="button col-3" class="btn btn-primary">ADD A BOOK</button>
 
 
                     </div>
                 </form>
 
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-10" style="text-align: start;font-size:36px">
+                Books
+            </div>
+            <div class="col-sm" style="text-align: end;font-size:36px;color:red">
+                <i class="far fa-trash-alt" id="deleteallbooks"></i>
             </div>
         </div>
         {{getBooks books}}
@@ -51,6 +62,23 @@
     </div>
     <script>
         const addBook = $("#addBook")
+
+        $("#deleteallbooks").click((e) => {
+
+            $.ajax({
+                url: "http://localhost:3000/profile",
+                type: "DELETE"
+
+            }).done((data) => {
+
+                console.log(data)
+                $(".list-group-item").remove()
+                $(".list-group").append("<div id='noBooks'class='alert alert-danger container' style='align-self:bottom' role='alert'>No Books Added</div>")
+
+            })
+
+        })
+
         addBook.submit((e) => {
             e.preventDefault()
             $.ajax({
@@ -58,10 +86,12 @@
                 type: "POST",
 
             }).done((data) => {
-                console.log(data)
+                $("#book_title").val("")
                 if ($("#noBooks")) {
                     $("#noBooks").remove()
-                    $("#libraryIndex").append("<ul class='list-group'></ul>")
+
+                    $(".list-group").append("<li class='list-group-item d-flex justify-content-between align-items-center'><a href='http://localhost:3000/profile/" + data._id + " '>" + data.title + "</a> <i class='far fa-trash-alt deleteBook'style='color:red'></i> </li > ")
+
                     // $(".list-group").append("< li class='list - group - item' >"++" </li >")
                     // $(".list-group").append("< li class='list - group - item' >"++" </li >")
                     //< li class="list-group-item" > Cras justo odio</li >
