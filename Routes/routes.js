@@ -75,7 +75,7 @@ module.exports = (app) => {
     })
 
     app.delete("/profile", authCheck, (req, res) => {
-        const user = { user: req.user.usernamee }
+        const user = { user: req.user.username }
         library.deleteMany(user).then((doc) => {
             if (!doc)
                 res.status(404).send()
@@ -85,12 +85,17 @@ module.exports = (app) => {
         })
     })
 
-    app.get("/profile/:id", authCheck, (req, res) => {
-        const bookName = { _id: req.params.id, title: req.body.book_title }
-        library.findOne(bookName).then((doc) => {
+    app.get("/profile/:book_id", authCheck, (req, res) => {
+        const book = { _id: req.params.book_id, user: req.user.username }
+        console.log(req.params.book_id)
+        library.find(book).then((doc) => {
+            console.log(doc)
             if (!doc)
                 return res.status(404).send()
-            res.send({ doc })
+            res.render("book", {
+                title: doc[0].title,
+                id: doc[0]._id
+            })
         }).catch((err) => {
             res.status(400).send()
         })
