@@ -31,7 +31,7 @@ hbs.registerHelper("getBooks", (doc) => {
 
         out = "<ul class='list-group'>"
         doc.forEach(data => {
-            out += "<li class='list-group-item d-flex justify-content-between align-items-center'><a href='http://localhost:3000/profile/" + data._id + " '>" + data.title + "</a> <i class='far fa-trash-alt deleteBook' style='color:red'></i> </li > "
+            out += "<li class='list-group-item d-flex justify-content-between align-items-center deletebook' id=" + data._id + "><a href='http://localhost:3000/profile/" + data._id + " '>" + data.title + "</a> <i class='far fa-trash-alt deletebook' id=" + data._id + " style='color:red'></i> </li > "
         })
         out += "</ul>"
     }
