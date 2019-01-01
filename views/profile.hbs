@@ -79,6 +79,33 @@
 
         })
 
+
+        $(".deletebook").click((e) => {
+            const book = $(e.target)
+            // console.log(book.attr("id"))
+            $.ajax({
+                url: "http://localhost:3000/profile/" + book.attr('id'),
+                type: "DELETE"
+
+            }).done((data) => {
+
+                $(".list-group-item ").each(function () {
+
+                    if ($(this).attr('id') == book.attr('id')) {
+
+                        $(this).remove()
+                        return
+                    }
+                })
+
+
+                // const book=
+                //$(".list-group-item").remove()
+                //$(".list-group").append("<div id='noBooks'class='alert alert-danger container' style='align-self:bottom' role='alert'>No Books Added</div>")
+
+                //})
+            })
+        })
         addBook.submit((e) => {
             e.preventDefault()
             $.ajax({
@@ -90,7 +117,7 @@
                 if ($("#noBooks")) {
                     $("#noBooks").remove()
 
-                    $(".list-group").append("<li class='list-group-item d-flex justify-content-between align-items-center'><a href='http://localhost:3000/profile/" + data._id + "'>" + data.title + "</a> <i class='far fa-trash-alt deleteBook'style='color:red'></i> </li > ")
+                    $(".list-group").append("<li class='list-group-item d-flex justify-content-between align-items-center ' id=" + data._id + " ><a href='http://localhost:3000/profile/" + data._id + "'>" + data.title + "</a> <i class='far fa-trash-alt deletebook' id=" + data._id + " style='color:red'></i> </li > ")
 
                     // $(".list-group").append("< li class='list - group - item' >"++" </li >")
                     // $(".list-group").append("< li class='list - group - item' >"++" </li >")
