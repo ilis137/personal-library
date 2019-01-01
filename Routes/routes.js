@@ -125,7 +125,7 @@ module.exports = (app) => {
         const book = { _id: req.params.id }
         library.deleteOne(book).then((doc) => {
 
-            res.status(200).send({ doc })
+            res.status(200).send(doc)
         }).catch((err) => {
             res.status(400).send()
         })
