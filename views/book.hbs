@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+        crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <title>book</title>
+</head>
+<style>
+    html,
+    body {
+        height: 100%;
+    }
+    *{
+        border: 1px solid red;
+    }
+</style>
+
+<body style="padding-top: 5rem;">
+    {{> navbar}}
+
+    <div style="padding: 3rem 1.5rem;
+  text-align: center;">
+        <h1>{{title}}</h1>
+        <div style="padding: 1.0rem 1.5rem;">
+            <p class=" h6">Title:{{title}}</p>
+            <p class="h6">id:{{id}}</p>
+        </div>
+        <div class="card" style="width: 100%;">
+            <div class="bg-info d-flex align-items-center justify-content-center" id="heading" style="width:100%">
+                <p class="font-weight-bold h5">Comments</p>
+            </div>
+            <div id="comment-box" class="py-4 px-4">
+                <textarea class="form-control" rows="3"></textarea>
+                <div class="d-flex align-items-center justify-content-end py-2">
+                    <button type="button" class="btn btn-primary" id="comment">Comment</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
