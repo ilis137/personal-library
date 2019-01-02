@@ -18,9 +18,7 @@
     body {
         height: 100%;
     }
-    *{
-        border: 1px solid red;
-    }
+   
 </style>
 
 <body style="padding-top: 5rem;">
@@ -28,7 +26,7 @@
 
     <div style="padding: 3rem 1.5rem;
   text-align: center;">
-        <h1>{{title}}</h1>
+        <h1 id={{id}}>{{title}}</h1>
         <div style="padding: 1.0rem 1.5rem;">
             <p class=" h6">Title:{{title}}</p>
             <p class="h6">id:{{id}}</p>
@@ -37,15 +35,30 @@
             <div class="bg-info d-flex align-items-center justify-content-center" id="heading" style="width:100%">
                 <p class="font-weight-bold h5">Comments</p>
             </div>
-            <div id="comment-box" class="py-4 px-4">
-                <textarea class="form-control" rows="3"></textarea>
+            <div class="py-4 px-4">
+                <textarea class="form-control" id="comment-box" rows="3"></textarea>
                 <div class="d-flex align-items-center justify-content-end py-2">
                     <button type="button" class="btn btn-primary" id="comment">Comment</button>
                 </div>
+                <ul class='list-group ' id='commentlist'></ul>
             </div>
 
         </div>
     </div>
 </body>
+<script>
+    $("#comment").click((e) => {
+        const comment = $("#comment-box").val()
+        $.ajax({
+            url: "http://localhost:3000/profile/" + $("h1").attr("id") + "?comment=" + comment,
+            type: "POST",
+
+        }).done((doc) => {
+            console.log(doc)
+            $("commentlist").append("<li class='list-group-item'>" + comment + "</li>")
+        })
+    })
+
+</script>
 
 </html>
