@@ -14,13 +14,20 @@ const library = mongoose.Schema({
         trim: true
 
     },
-    comments: {
-        type: [String],
+    comments: [{
+            comment: {
+                type: String,
+                minLength: 1,
+                trim: true
+            },
 
-        minLength: 1,
-        trim: true
+            date: {
+                type: Date,
+            }
+        }
 
-    }
+    ],
+
 })
 
 library.plugin(passportLocalMongoose)
