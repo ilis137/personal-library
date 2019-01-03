@@ -47,15 +47,16 @@ module.exports = (app) => {
     app.get("/profile", authCheck, (req, res) => {
         const user = { user: req.user.username }
         library.find(user).then((doc) => {
-            console.log(doc.length)
+            ///console.log(doc.length)
             if (!doc.length) {
                 console.log("user not found")
                     //return res.status(404).send()
-                return res.render("profile")
+                console.log(req)
+                return res.render("profile", { user: req.user })
             }
 
             // res.send(doc)
-            res.render("profile", { books: doc })
+            res.render("profile", { books: doc, user: req.user })
         }).catch((err) => {
             res.status(400).send()
         })
@@ -87,14 +88,15 @@ module.exports = (app) => {
 
     app.get("/profile/:book_id", authCheck, (req, res) => {
         const book = { _id: req.params.book_id, user: req.user.username }
-        console.log(req.params.book_id)
+            // console.log(req.params.book_id)
         library.find(book).then((doc) => {
-            console.log(doc)
+            //  console.log(doc)
             if (!doc)
                 return res.status(404).send()
             res.render("book", {
                 title: doc[0].title,
-                id: doc[0]._id
+                id: doc[0]._id,
+                comments: doc[0].comments
             })
         }).catch((err) => {
             res.status(400).send()
@@ -102,21 +104,19 @@ module.exports = (app) => {
     })
 
     app.post("/profile/:id", authCheck, (req, res) => {
-        //const book = new library({ _id: req.params.id, title: req.body.book_title })
-        const id = req.params.id
-        let comments;
-        library.findOne(bookName).then((book) => {
-            comments = book.comments
 
-        }).catch((err) => {
-            res.status(400).send()
-        })
-        comments.push(req.body.comment)
+        const book = { _id: req.params.id }
+        const id = req.params.id
+
+        let comment = req.query.comment;
+
         library.findByIdAndUpdate(id, {
-            $set: { comments }
+            $push: { "comments": comment }
         }, { new: true }).then((doc) => {
-            res.send({ doc })
+            console.log(doc)
+            res.send(doc)
         }).catch((err) => {
+            console.log(err)
             res.status(400).send()
         })
     })
@@ -127,6 +127,7 @@ module.exports = (app) => {
 
             res.status(200).send(doc)
         }).catch((err) => {
+
             res.status(400).send()
         })
     })

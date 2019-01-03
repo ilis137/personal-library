@@ -39,6 +39,17 @@ hbs.registerHelper("getBooks", (doc) => {
     return new hbs.handlebars.SafeString(out)
 })
 
+hbs.registerHelper("getComments", (comments) => {
+    let out = "";
+    if (comments.length) {
+        comments.forEach((comment) => {
+            out += "<li class='list-group-item text-left'>" + comment + "</li>"
+        })
+        return new hbs.handlebars.SafeString(out)
+    }
+
+})
+
 const Account = require("./models/Accounts")
 passport.use(new LocalStrategy(
     Account.authenticate()

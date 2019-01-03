@@ -22,7 +22,7 @@
 </style>
 
 <body style="padding-top: 5rem;">
-    {{> navbar}}
+    {{> navbar auth=user}}
 
     <div style="padding: 3rem 1.5rem;
   text-align: center;">
@@ -40,7 +40,9 @@
                 <div class="d-flex align-items-center justify-content-end py-2">
                     <button type="button" class="btn btn-primary" id="comment">Comment</button>
                 </div>
-                <ul class='list-group ' id='commentlist'></ul>
+                <ul class='list-group ' id='commentlist'>
+                    {{getComments comments}}
+                </ul>
             </div>
 
         </div>
@@ -54,8 +56,8 @@
             type: "POST",
 
         }).done((doc) => {
-            console.log(doc)
-            $("commentlist").append("<li class='list-group-item'>" + comment + "</li>")
+
+            $("#commentlist").append("<li class='list-group-item text-left'>" + comment + "</li>")
         })
     })
 
