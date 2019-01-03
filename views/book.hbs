@@ -51,13 +51,15 @@
 <script>
     $("#comment").click((e) => {
         const comment = $("#comment-box").val()
+        const date = new Date()
+
         $.ajax({
-            url: "http://localhost:3000/profile/" + $("h1").attr("id") + "?comment=" + comment,
+            url: "http://localhost:3000/profile/" + $("h1").attr("id") + "?comment=" + comment + "&date=" + date,
             type: "POST",
 
         }).done((doc) => {
 
-            $("#commentlist").append("<li class='list-group-item text-left'>" + comment + "</li>")
+            $("#commentlist").append("<li class='list-group-item text-left d-flex justify-content-between'><span>" + comment + "</span><span class='text-muted' style='font-size:12px;'> " + date.toLocaleDateString() + " " + date.toLocaleTimeString() + " </span></li>")
         })
     })
 

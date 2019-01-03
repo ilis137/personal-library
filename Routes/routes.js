@@ -96,7 +96,8 @@ module.exports = (app) => {
             res.render("book", {
                 title: doc[0].title,
                 id: doc[0]._id,
-                comments: doc[0].comments
+                comments: doc[0].comments,
+                user: req.user
             })
         }).catch((err) => {
             res.status(400).send()
@@ -107,13 +108,19 @@ module.exports = (app) => {
 
         const book = { _id: req.params.id }
         const id = req.params.id
-
+        console.log(req.query)
         let comment = req.query.comment;
-
+        let date = req.query.date
+        console.log(typeof date)
         library.findByIdAndUpdate(id, {
-            $push: { "comments": comment }
+            $push: {
+                "comments": {
+                    "comment": comment,
+                    "date": date
+                }
+            }
         }, { new: true }).then((doc) => {
-            console.log(doc)
+            console.log(typeof doc.comments[0].date)
             res.send(doc)
         }).catch((err) => {
             console.log(err)

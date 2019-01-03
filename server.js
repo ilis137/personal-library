@@ -41,9 +41,12 @@ hbs.registerHelper("getBooks", (doc) => {
 
 hbs.registerHelper("getComments", (comments) => {
     let out = "";
+    console.log(comments)
     if (comments.length) {
+
         comments.forEach((comment) => {
-            out += "<li class='list-group-item text-left'>" + comment + "</li>"
+            console.log(typeof comment.date)
+            out += "<li class='list-group-item text-left d-flex justify-content-between'><span>" + comment.comment + "</span> <span class='text-muted' style='font-size:12px;'> " + comment.date.toLocaleDateString() + " " + comment.date.toLocaleTimeString() + " </span> </li > "
         })
         return new hbs.handlebars.SafeString(out)
     }
